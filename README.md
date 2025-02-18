@@ -1,41 +1,49 @@
-## FOMC Statement Scraping and Sentiment Analysis Project
+## Equity Portfolio Stress Testing Project
 
 ### Overview:
-This project involves scraping the text of Federal Open Market Committee (FOMC) statements from January 2000 to the present, analyzing their tone, and examining the impact of FOMC decisions on the financial markets. Key tasks include sentiment analysis of the statements, computing changes in Federal Funds Rate (FFR) targets, and performing regression analyses to evaluate the influence of FOMC statements on bond and stock markets.
+This project focuses on performing a stress test on an equity portfolio using macroeconomic variables (MEVs) from the Federal Reserve's stress testing for bank capital (CCAR). The goal is to predict the average performance of a portfolio in hypothetical adverse scenarios using a reliable model for out-of-sample prediction and robustness across different scenarios. Key tasks include forming a portfolio, preparing data, performing regression analysis, and comparing results under baseline and adverse scenarios.
 
 ### Steps:
-1. **Scraping FOMC Statements**:
-   - Use BeautifulSoup to scrape statements from:
-     - 2019-2024: [FOMC Calendars](https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm)
-     - 2000-2018: [FOMC Historical Years](https://www.federalreserve.gov/monetarypolicy/fomc_historical_year.htm)
-   - Extract URLs, download, and clean the text by removing HTML tags.
-   - Extract release dates from URLs and calculate word count statistics (mean, median, standard deviation).
 
-2. **Sentiment Analysis**:
-   - Follow Tadle (2022) to analyze tone:
-     - Tokenize text using `nltk.sent_tokenize`.
-     - Identify hawkish and dovish keywords, adjust for negation.
-     - Compute and aggregate sentiment scores for each statement.
-     - Plot sentiment scores over time.
+#### 1. **Portfolio Formation & Data Processing (50 points)**:
+   - **Portfolio Selection (5 points)**:
+     - Choose at least 15 stocks for the portfolio, avoiding short positions, and ensure the portfolio remains static (not dynamically rebalanced).
+     - Provide rationale for stock selection.
+   - **Missing Data Handling (15 points)**:
+     - Process missing data, especially when grouping stocks by industry or size for prediction models.
+     - Describe your strategy for handling missing data.
+   - **Data Sources (5 points)**:
+     - Document the sources of data used outside of the provided files.
+   - **Stationarity Test (15 points)**:
+     - Perform stationarity tests on all MEVs and transform the data as needed (e.g., first differences, logs).
+   - **Summary Statistics (10 points)**:
+     - Provide summary statistics of all data used, including time periods.
 
-3. **Federal Funds Rate Data**:
-   - Retrieve FFR data from FRED (DFEDTAR and DFEDTARU).
-   - Calculate FFR changes on each FOMC meeting date and plot alongside sentiment scores.
+#### 2. **Stress Testing Using Fama-French Three-Factor Model (80 points)**:
+   - **MEV Selection (20 points)**:
+     - Choose a subset of MEVs to represent severely adverse scenarios and justify the choice based on economic reasoning.
+   - **Fama-French Model Results (20 points)**:
+     - Report results of the Fama-French three-factor model (Market, SMB, HML) for portfolio stress testing.
+   - **Impact of MEVs on Fama-French Factors (10 points)**:
+     - Use linear regression to identify the impact of MEVs on Fama-French factors across all data.
+   - **Impact During Stressed Times (15 points)**:
+     - Perform regression on “stressed times” (economic downturns, financial instability) to analyze MEV impact during severe scenarios.
+   - **Predict Portfolio Performance (10 points)**:
+     - Predict portfolio performance under supervisory baseline vs. severely adverse scenarios for 2024Q1–2025Q1.
+   - **Error Bands Discussion (5 points)**:
+     - Conceptually discuss ways to provide error bands for these projections.
 
-4. **Alternative Sentiment Measurement**:
-   - Critique Tadle (2022) and propose a new method for measuring hawkish/dovish tone.
-
-5. **Regression Analysis**:
-   - Perform regressions to analyze the relationship between sentiment, FFR changes, and bond market responses:
-     - Use FRED data (EFFR, DGS1MO, DGS10) to compute bond changes on FOMC meeting dates.
-     - Analyze results and select the best regression specification.
-
-6. **Stock Market Impact**:
-   - Analyze FOMC sentiment impact on stock markets using industry return data from the French Data Library.
-   - Regress industry returns on FOMC sentiment for each meeting date and compute the monetary policy risk premium.
-   - Perform monthly regressions from Jan. 2000 to Aug. 2024 to assess long-term effects.
+#### 3. **Construct Your Own Model for Stress Testing (60 points)**:
+   - **Model Plan (10 points)**:
+     - Provide a detailed plan for the prediction model, including choices for factors and regressions.
+   - **Intermediate Results (20 points)**:
+     - Report intermediate results that are useful for further analysis.
+   - **Model Comparison (20 points)**:
+     - Compare your model with the Fama-French model from Section 4 in terms of goodness-of-fit, robustness, back-testing, and projection differences.
+   - **Model Risk Discussion (10 points)**:
+     - Discuss potential risks (complexity, overfitting, small sample sizes) that could affect the reliability of the model.
 
 ### Requirements:
-- Python (BeautifulSoup, NLTK, Pandas, Matplotlib)
-- Access to FRED and French Data Library datasets.
+- Data: Excel files with historical return data (1963–2023) for 20 stocks, market returns, Fama-French factors, and MEVs from the Federal Reserve.
+- Tools: Statistical software (e.g., Excel, Python, R) for regression analysis, data processing, and model construction.
 
